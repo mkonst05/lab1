@@ -1,31 +1,74 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33110.190
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lab1", "lab1\lab1.vcxproj", "{F8466902-CF48-4764-A3BE-C7419855035D}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Debug|x64.ActiveCfg = Debug|x64
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Debug|x64.Build.0 = Debug|x64
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Debug|x86.ActiveCfg = Debug|Win32
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Debug|x86.Build.0 = Debug|Win32
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Release|x64.ActiveCfg = Release|x64
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Release|x64.Build.0 = Release|x64
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Release|x86.ActiveCfg = Release|Win32
-		{F8466902-CF48-4764-A3BE-C7419855035D}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {98660826-C66A-450F-9D6A-BF27E7D3A00B}
-	EndGlobalSection
-EndGlobal
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+#define ROWS 3
+#define COLS 3
+void print_matrix(int arr[ROWS][COLS]);
+int* processing();
+int main(void)
+{
+	srand(time(NULL));
+	int arr[ROWS][COLS];
+
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			//cout << "arr[" << i << "][" << j << "]:";
+			//cin>>arr[i][j];
+			arr[i][j] = rand() % 20 - 10;
+		}
+	}
+	print_matrix(arr);
+	int* arr3 = processing();
+	for (int a = 0; a < 3; a++)
+	{
+		cout << arr[a] << " ";
+	}delete[] arr3;
+}
+
+void print_matrix(int arr[ROWS][COLS])
+{
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			cout << arr[i][j] << " ";
+		}cout << endl;
+	}
+}
+int* processing()
+{
+	int* m = new int[3] {0};
+	int arr2[ROWS][COLS];
+	for (int i = 0; i < ROWS; i++)
+	{
+		int positive_count = 0;
+		int negative_count = 0;
+		for (int j = 0; j < COLS; j++)
+		{
+
+			if (arr2[i][j] >= 0)
+			{
+				positive_count++;
+			}
+			if (arr2[i][j] < 0)
+			{
+				negative_count++;
+			}
+		}if (positive_count > negative_count)
+		{
+			for (int b = 0; b < 3; b++)
+			{
+				m[0] = i;
+				m[1] = i + 1;
+				cout << m[b] << " " << endl;
+			}
+			cout << "P is more than N in row " << i + 1 << endl;
+		}
+
+		cout << "Positives in row " << i + 1 << ": " << positive_count << endl;
+		cout << "Negatives in row " << i + 1 << ": " << negative_count << endl;
+	}
+	return m;
+}
