@@ -13,27 +13,64 @@ void print_matrix(int arr[ROWS][COLS]);
 int* processing(int arr2[ROWS][COLS]);
 void randomFilling(int arr[ROWS][COLS]);
 void manualFilling(int arr[ROWS][COLS]);
-
+double calculate_average(int arr[ROWS][COLS], int m[ROWS+1]);
 
 int main(void)
 {
-    srand(time(NULL));
+    setlocale(LC_ALL, "");
     int arr[ROWS][COLS];
-
-    randomFilling(arr);
-    //manualFilling(arr);
+    int user_input;
+    cout << "Оберіть спосіб заповнення матриці: " << endl;;
+    cout << "Введіть 1, щоб заповнити матрицю власноруч." << endl;
+    cout << "Введіть 2, щоб заповнити матрицю випадковими числами." << endl;
+    cin >> user_input;
+    switch (user_input)
+    {
+    case 1:manualFilling(arr);
+        break;
+    case 2:randomFilling(arr);
+        break;
+    default:cout << "ERROR" << endl;
+        break;
+    }
     print_matrix(arr);
 
     int* arr3 = processing(arr);
-    for (int i = 0; i < ROWS+1; i++)
+    for (int i = 0; i < ROWS + 1; i++)
     {
         cout << arr3[i] << " ";
+    }cout << endl;
+    if (arr3[0] == 0)
+    {
+        cout << "Потрібних рядків не було знайдено." << endl;
+        return -1;
     }
+    double result = calculate_average(arr, arr3);
+    cout << "Result: " << result << endl;
     delete[] arr3;
+}
+double calculate_average(int arr[ROWS][COLS], int m[ROWS + 1])
+{
+    int index=0;
+    double sum = 0;
+    for (int i = 0; i < ROWS; i++)
+    {
+        if (i != m[index + 1])
+        {
+            continue;
+        }index++;
+        for (int j = 0; j < COLS; j++)
+        {
+            sum += arr[i][j];
+        }
+    }
+    cout << "Sum: " << sum << endl;
+    return (sum / m[0]);
 }
 
 void randomFilling(int arr[ROWS][COLS])
 {
+    srand(time(NULL));
     for (int i = 0; i < ROWS; i++)
     {
         for (int j = 0; j < COLS; j++)
@@ -57,7 +94,7 @@ void print_matrix(int arr[ROWS][COLS])
 
 int* processing(int arr2[ROWS][COLS])
 {
-    int* m = new int[ROWS+1] {0};
+    int* m = new int[ROWS + 1] {0};
     int index = 1;
 
     for (int i = 0; i < ROWS; i++)
@@ -82,9 +119,7 @@ int* processing(int arr2[ROWS][COLS])
             m[0] += 1;
             cout << "P is more than N in row " << i + 1 << endl;
         }
-
-        cout << "Positives in row " << i + 1 << ": " << positive_count << endl;
-        cout << "Negatives in row " << i + 1 << ": " << negative_count << endl;
+        //
     }
     return m;
 }
@@ -95,7 +130,7 @@ void manualFilling(int arr[ROWS][COLS])
         for (int j = 0; j < COLS; j++)
         {
             cout << "arr[" << i << "][" << j << "]: ";
-            cin>>arr[i][j];
+            cin >> arr[i][j];
         }
     }
 }
