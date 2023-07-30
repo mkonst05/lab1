@@ -10,22 +10,18 @@ void show_matrix(int** arr, int rows, int cols);
 int* processing(int** arr, int rows, int cols);
 void randomFilling(int** arr, int rows, int cols);
 void manualFilling(int** arr, int rows, int cols);
-double calculate_average(int** arr, int rows, int cols, int *rows_numbers);
-
+double calculate_average(int** arr, int rows, int cols, int* rows_numbers);
+int** create(int rows, int cols);
 int main(void)
 {
     setlocale(LC_ALL, "");
     int rows;
     int cols;
-    cout << "Rows: ";
+    cout << "Введіть кількість РЯДКІВ матриці: ";
     cin >> rows;
-    cout << "Cols: ";
+    cout << "Введіть кількість СТОВПЦІВ матриці: ";
     cin >> cols;
-    int** arr = new int* [rows];
-    for (int a = 0; a < rows; a++)
-    {
-        arr[a] = new int[cols];
-    }
+    int** arr = create(rows, cols);
     int user_input;
     cout << "Оберіть спосіб заповнення матриці: " << endl;;
     cout << "Введіть 1, щоб заповнити матрицю власноруч." << endl;
@@ -33,29 +29,22 @@ int main(void)
     cin >> user_input;
     switch (user_input)
     {
-    case 1:manualFilling(arr,rows,cols);
+    case 1:manualFilling(arr, rows, cols);
         break;
-    case 2:randomFilling(arr,rows,cols);
+    case 2:randomFilling(arr, rows, cols);
         break;
     default:cout << "ПОМИЛКА" << endl;
         break;
     }
-    show_matrix(arr,rows,cols);
+    show_matrix(arr, rows, cols);
 
-    int* rows_numbers = processing(arr,rows,cols);
-    cout << "Кількість потрібних рядків: " << rows_numbers[0] << endl;
-    cout << "Номери потрібних рядків: ";
-    for (int i = 1; i < rows + 1; i++)
-    {
-        cout << rows_numbers[i] << " ";
-    }
-    cout << endl;
+    int* rows_numbers = processing(arr, rows, cols);
     if (rows_numbers[0] == 0)
     {
         cout << "Потрібних рядків не було знайдено." << endl;
         return -1;
     }
-    double result = calculate_average(arr,rows,cols, rows_numbers);
+    double result = calculate_average(arr, rows, cols, rows_numbers);
     cout << "Результат: " << result << endl;
     delete[] rows_numbers;
     for (int b = 0; b < rows; b++)
@@ -64,6 +53,16 @@ int main(void)
     }
     delete[]arr;
 }
+int** create(int rows, int cols)
+{
+    int** arr = new int* [rows];
+    for (int a = 0; a < rows; a++)
+    {
+        arr[a] = new int[cols];
+    }
+    return arr;
+}
+
 double calculate_average(int** arr, int rows, int cols, int *rows_numbers)
 {
     int index = 1;
