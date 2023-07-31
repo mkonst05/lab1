@@ -12,6 +12,7 @@ void randomFilling(int** arr, int rows, int cols);
 void manualFilling(int** arr, int rows, int cols);
 double calculate_average(int** arr, int rows, int cols, int* rows_numbers);
 int** create(int rows, int cols);
+int** delete_matrix(int** arr, int rows, int cols);
 int main(void)
 {
     setlocale(LC_ALL, "");
@@ -47,11 +48,16 @@ int main(void)
     double result = calculate_average(arr, rows, cols, rows_numbers);
     cout << "Результат: " << result << endl;
     delete[] rows_numbers;
+    delete_matrix(arr,rows,cols);
+}
+int** delete_matrix(int** arr, int rows, int cols)
+{
     for (int b = 0; b < rows; b++)
     {
         delete[] arr[b];
     }
     delete[]arr;
+    return 0;
 }
 int** create(int rows, int cols)
 {
