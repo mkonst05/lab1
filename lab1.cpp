@@ -6,25 +6,21 @@
 #include"matrix_filling.h"
 #include"processeingModule.h"
 #include"create-delete_matrix.h"
+#include"structMtrx.cpp";
 using namespace std;
-void show_matrix(int** arr, int rows, int cols);
+void show_matrix(struct matrix *m);
 
-struct matrix
+
+int main(int argc,char* argv[])
 {
-    int **arr;
-    int rows;
-    int cols;
-};
-int main()
-{
-    matrix m;
+    struct matrix* m = new struct matrix;
     setlocale(LC_ALL, "");
    
     cout << "Введіть кількість РЯДКІВ матриці: ";
-    cin >> m.rows;
+    cin >> m->rows;
     cout << "Введіть кількість СТОВПЦІВ матриці: ";
-    cin >> m.cols;
-    m.arr = create(m.rows, m.cols);
+    cin >> m->cols;
+    m->arr = create(m->rows, m->cols);
     int user_input;
     cout << "Оберіть спосіб заповнення матриці: " << endl;;
     cout << "Введіть 1, щоб заповнити матрицю власноруч." << endl;
@@ -32,34 +28,34 @@ int main()
     cin >> user_input;
     switch (user_input)
     {
-    case 1:manualFilling(m.arr, m.rows, m.cols);
+    case 1:manualFilling(m);
         break;
-    case 2:randomFilling(m.arr, m.rows, m.cols);
+    case 2:randomFilling(m);
         break;
     default:cout << "ПОМИЛКА" << endl;
         break;
     }
-    show_matrix(m.arr, m.rows, m.cols);
+    show_matrix(m);
 
-    int* rows_numbers = processing(m.arr,m. rows, m.cols);
+    int* rows_numbers = processing(m);
     if (rows_numbers[0] == 0)
     {
         cout << "Потрібних рядків не було знайдено." << endl;
         return -1;
     }
-    double result = calculate_average(m.arr, m.rows, m.cols, rows_numbers);
+    double result = calculate_average(m, rows_numbers);
     cout << "Результат: " << result << endl;
     delete[] rows_numbers;
-    delete_matrix(m.arr, m.rows, m.cols);
+    delete_matrix(m);
 }
 
-void show_matrix(int** arr, int rows, int cols)
+void show_matrix(struct matrix *m)
 {
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < m->rows; i++)
     {
-        for (int j = 0; j < cols; j++)
+        for (int j = 0; j < m->cols; j++)
         {
-            cout << arr[i][j] << " ";
+            cout << m->arr[i][j] << " ";
         }
         cout << endl;
     }
